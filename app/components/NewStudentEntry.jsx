@@ -4,10 +4,10 @@ import { postStudent } from '../reducers'; // make sure this exists
 
 function NewStudentEntry (props) {
 
-    let { name, email, handleSubmit } = props;
+    let { name, email, campus, handleSubmit } = props;
 
     return (
-        <form id="new-message-form" onSubmit={evt => handleSubmit(name, email, evt)}>
+        <form id="new-message-form" onSubmit={evt => handleSubmit(name, email, campus, evt)}>
             <div className="input-group input-group-lg">
                 <input
                     className="form-control"
@@ -23,6 +23,13 @@ function NewStudentEntry (props) {
                     onChange={evt => email = evt.target.value}
                     placeholder="New Student Email"
                 />
+                <input
+                    className="form-control"
+                    type="text"
+                    name="content"
+                    onChange={evt => campus = evt.target.value}
+                    placeholder="New Student Campus"
+                />
                 <span className="input-group-btn">
           <button className="btn btn-default" type="submit">Submit</button>
         </span>
@@ -33,11 +40,11 @@ function NewStudentEntry (props) {
 
 const mapStateToProps = null;
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch) {
     return {
-        handleSubmit (name, email, evt) {
+        handleSubmit (name, email, campus, evt) {
             evt.preventDefault();
-            dispatch(postStudent({ name: name, email: email }));
+            dispatch(postStudent({ name: name, email: email, campusId: campus }));
         }
     };
 };
