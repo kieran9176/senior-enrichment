@@ -2,7 +2,7 @@
  * Created by kieranderfus on 7/12/17.
  */
 import React, { Component } from 'react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import StudentList from './StudentList';
 import { fetchCampuses } from '../store';
@@ -15,7 +15,7 @@ class Campus extends Component {
     }
 
     render () {
-        const campusId = Number(this.props.match.params.campusId);
+        const campusId = Number(this.props.match.params.campusId); // gets campusId from props
         const single_campus_array = (this.props.campuses.filter(campus => campus.id === campusId));
 
         let campus = single_campus_array[0] && single_campus_array[0];
@@ -28,8 +28,10 @@ class Campus extends Component {
             <div>
                 <h1>{name}</h1>
                 <StudentList />
-                <div></div>
                 <form id="updateCampus" onSubmit={evt => handleSubmit(campusId, newName ? newName : name, evt)}>
+                                                {/* Passing ternary operators as parameters. Why? If the user changes a form input field,
+                                                    I pass the changed value to handleSubmit upon submission. If not, I pass the value
+                                                    that was originally rendered on the page. */}
                     <div className="input-group input-group-lg">
                         <input
                             className="form-control"

@@ -14,13 +14,12 @@ class Student extends Component {
     }
 
     render () {
-        const studentId = Number(this.props.match.params.studentId);
+        const studentId = Number(this.props.match.params.studentId); // gets studentId from props
         const single_student_array = (this.props.students.filter(student => student.id === studentId));
         const { campuses, handleSubmit } = this.props;
-        console.log(campuses);
 
         let student, name, email, campusId;
-        if (single_student_array.length) {
+        if (single_student_array.length) { // waits until students is populated
             student = single_student_array[0];
             name = student.name;
             email = student.email;
@@ -28,11 +27,12 @@ class Student extends Component {
         }
 
         let single_campus_array, campusName;
-        if (campuses.length) {
+        if (campuses.length) { // waits until campuses is populated
             single_campus_array = (campuses.filter(campus => campus.id === +campusId));
             campusName = single_campus_array[0].name;
         }
 
+        // grabs campusId from form's select dropdown menu
         function selectedValue () {
             const x = document.getElementById("campusesSelect").selectedIndex;
             return document.getElementsByTagName("option")[x].value;
@@ -46,6 +46,9 @@ class Student extends Component {
                     <h2>{campusName}</h2>
                 </NavLink>
                 <form id="updateStudent" onSubmit={evt => handleSubmit(studentId, name ? name : student.name, email ? email : student.email, selectedValue(), evt)}>
+                                                                        {/* Passing ternary operators as parameters. Why? If the user changes a form input field,
+                                                                        I pass the changed value to handleSubmit upon submission. If not, I pass the value
+                                                                        that was originally rendered on the page. */}
                     <div className="input-group input-group-lg">
                         <input
                             className="form-control"
