@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom';
+import { NavLink, Switch, Route, Redirect } from 'react-router-dom';
 import CampusList from './CampusList';
 import Campus from './Campus';
 import StudentList from './StudentList';

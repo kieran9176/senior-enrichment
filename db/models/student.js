@@ -6,7 +6,11 @@ const db = require('../index.js');
 
 module.exports = db.define('student', {
     name: Sequelize.STRING,
-    email: Sequelize.STRING
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+    }
 });
 
 
