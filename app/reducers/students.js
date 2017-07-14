@@ -2,6 +2,7 @@
  * Created by kieranderfus on 7/12/17.
  */
 import axios from 'axios';
+import { DELETE_CAMPUS as DELETE_STUDENTS_FROM_CAMPUS } from './campuses';
 
 const GET_STUDENT = "GET_STUDENT";
 const GET_STUDENTS = "GET_STUDENTS";
@@ -82,6 +83,9 @@ export default function studentReducer (state = [], action) {
             return state.map(student => (
                 action.student.id === student.id ? action.student : student
             ));
+
+        case DELETE_STUDENTS_FROM_CAMPUS:
+            return state.filter(student => student.campusId !== action.campus.id);
 
         default:
             return state;

@@ -4,6 +4,7 @@ import CampusList from './CampusList';
 import Campus from './Campus';
 import StudentList from './StudentList';
 import Student from './Student';
+import Navbar from './Navbar';
 import store, {fetchCampuses, fetchStudents } from '../store';
 
 class Home extends Component {
@@ -19,23 +20,13 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <div>
-                    <NavLink to={`/campuses`} activeClassName="active">
-                        <span>Campuses</span>
-                    </NavLink>
-                </div>
-                <div>
-                    <NavLink to={`/students`}
-                             activeClassName="active">
-                        <span>Students</span>
-                    </NavLink>
-                    <Switch>
-                        <Route path="/campuses/:campusId" component={Campus}/>
-                        <Route path="/students/:studentId" component={Student}/>
-                        <Route exact path="/campuses" component={CampusList}/>
-                        <Route exact path="/students" component={StudentList}/>
-                    </Switch>
-                </div>
+                <Navbar />
+                <Switch>
+                    <Route path="/campuses/:campusId" component={Campus}/>
+                    <Route path="/students/:studentId" component={Student}/>
+                    <Route exact path="/campuses" component={CampusList}/>
+                    <Route exact path="/students" component={StudentList}/>
+                </Switch>
             </div>
         );
     }

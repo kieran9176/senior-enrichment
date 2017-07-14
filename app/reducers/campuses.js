@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const GET_CAMPUS = "GET_CAMPUS";
 const GET_CAMPUSES = "GET_CAMPUSES";
-const DELETE_CAMPUS = "DELETE_CAMPUS";
+export const DELETE_CAMPUS = "DELETE_CAMPUS";
 
 export function getCampus (campus) {
     const action = { type: GET_CAMPUS, campus };
@@ -45,6 +45,7 @@ export function postCampus (campus) {
 export const removeCampus = campus => dispatch => {
     dispatch(deleteCampus(campus));
     axios.delete(`/api/campuses/${campus.id}`)
+        // .then(dispatch(deleteCampus(campus)))
         .catch(err => console.error(`Removing user: ${campus.id} unsuccessful`, err));
 };
 
