@@ -36,8 +36,8 @@ export function fetchCampuses () {
 export function postCampus (campus) {
     return function thunk (dispatch) {
         return axios.post('/api/campuses', campus)
-            .then(newCampus => {
-                dispatch(getCampus(newCampus));
+            .then(response => {
+                dispatch(getCampus(response.data.campus));
             });
     };
 }

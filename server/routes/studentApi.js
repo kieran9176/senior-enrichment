@@ -38,20 +38,12 @@ api.post('/students', (req, res) => {
         })
 });
 
-api.put('/students/:id', (req, res) => {
-    Student.findById(req.params.id)
-        .then(_student => {
-            return _student.update(req.body, { where: { id: req.params.id }, plain: true })
+api.put('/students/:id', function (req, res, next) {
+    req.requestedStudent.update(req.body)
+        .then(function (student) {
+            res.json(student);
         })
-        .then(_student => {
-            res.status(200).json({
-                message: "Updated Successfully",
-                student: _student
-            });
-        })
-        .catch(err => {
-            res.sendStatus(500, err);
-        })
+        .catch(next);
 });
 
 api.delete('/students/:id', function (req, res, next) {

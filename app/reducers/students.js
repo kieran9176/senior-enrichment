@@ -1,12 +1,12 @@
 /**
  * Created by kieranderfus on 7/12/17.
  */
-
 import axios from 'axios';
 
 const GET_STUDENT = "GET_STUDENT";
 const GET_STUDENTS = "GET_STUDENTS";
 const DELETE_STUDENT = "DELETE_STUDENT";
+const UPDATE_STUDENT = "UPDATE_STUDENT";
 
 export function getStudent (student) {
     const action = { type: GET_STUDENT, student };
@@ -23,6 +23,11 @@ export function deleteStudent (student) {
     return action;
 }
 
+export function updateStudent (student) {
+    const action = { type: UPDATE_STUDENT, student };
+    return action;
+}
+
 export function fetchStudents () {
     return function thunk (dispatch) {
         return axios.get('/api/students')
@@ -34,22 +39,30 @@ export function fetchStudents () {
     };
 }
 
-export function postStudent (student) {
-    return function thunk (dispatch) {
+export function postStudent(student) {
+    return function thunk(dispatch) {
         return axios.post('/api/students', student)
-            .then(newStudent => {
-                dispatch(getStudent(newStudent));
+            .then(response => {
+                dispatch(getStudent(response.data.student));
             });
     };
 }
 
-export const removeStudent = student => dispatch => {
-    dispatch(deleteStudent(student));
-    console.log("CAMPUS ID:", student.id);
-    axios.delete(`/api/students/${student.id}`)
-        .catch(err => console.error(`Removing user: ${student.id} unsuccessful`, err));
-};
+export function putStudent (id, student) {
+    return function thunk(dispatch) {
+        return axios.put(`/api/students/${id}`, student)
+            .then(res => dispatch(updateStudent(res.data)))
+            .catch(err => console.error(`Updating user: ${student} unsuccessful`, err));
+    };
+}
 
+export function removeStudent (student) {
+    return function thunk(dispatch) {
+        dispatch(deleteStudent(student));
+        axios.delete(`/api/students/${student.id}`)
+            .catch(err => console.error(`Removing user: ${student.id} unsuccessful`, err));
+    }
+}
 
 export default function studentReducer (state = [], action) {
 
@@ -63,6 +76,11 @@ export default function studentReducer (state = [], action) {
 
         case DELETE_STUDENT:
             return state.filter(student => student.id !== action.student.id);
+
+        case UPDATE_STUDENT:
+            return state.map(student => (
+                action.student.id === student.id ? action.student : student
+            ));
 
         default:
             return state;
