@@ -17,7 +17,7 @@ class Campus extends Component {
         const campusId = Number(this.props.match.params.campusId);
         const single_campus_array = (this.props.campuses.filter(campus => campus.id === campusId));
 
-        let name = single_campus_array[0] && single_campus_array[0].name; // How do I just reference it after the component mounts? To avoid this?
+        let name = single_campus_array[0] && single_campus_array[0].name;
 
         return (
             <div>

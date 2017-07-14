@@ -50,6 +50,7 @@ export function postStudent(student) {
 
 export function putStudent (id, student) {
     return function thunk(dispatch) {
+        console.log("STUDENTS.JS, PUT STUDENT STUDENT OBJECT", student);
         return axios.put(`/api/students/${id}`, student)
             .then(res => dispatch(updateStudent(res.data)))
             .catch(err => console.error(`Updating user: ${student} unsuccessful`, err));

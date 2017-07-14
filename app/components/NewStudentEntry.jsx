@@ -13,8 +13,6 @@ class NewStudentEntry extends Component {
 
         let {name, email, campuses, handleSubmit, match, campusId} = this.props;
 
-        console.log("NEW STUDENT ENTRY:", this.props);
-
         function selectedValue () {
             const x = document.getElementById("campusesSelect").selectedIndex;
             return document.getElementsByTagName("option")[x].value;

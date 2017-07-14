@@ -34,7 +34,7 @@ class Student extends Component {
             <div>
                 <h1>{name}</h1>
                 <h2>{email}</h2>
-                <h3>{}</h3>
+                <h3>HERE WE ARE</h3>
                 <form id="updateStudent" onSubmit={evt => handleSubmit(studentId, name ? name : student.name, email ? email : student.email, selectedValue(), evt)}>
                     <div className="input-group input-group-lg">
                         <input
@@ -82,7 +82,7 @@ const mapDispatchToProps = function (dispatch) {
         },
         handleSubmit (id, name, email, campusId, evt) {
             evt.preventDefault();
-            dispatch(putStudent(id, { name: name, email: email, campusId: campusId }));
+            dispatch(putStudent(id, { name: name, email: email, campusId: +campusId }));
         }
     };
 };
