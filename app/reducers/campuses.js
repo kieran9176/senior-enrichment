@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const GET_CAMPUS = "GET_CAMPUS";
 const GET_CAMPUSES = "GET_CAMPUSES";
+const UPDATE_CAMPUS = "UPDATE_CAMPUS";
 export const DELETE_CAMPUS = "DELETE_CAMPUS";
 
 export function getCampus (campus) {
@@ -14,6 +15,11 @@ export function getCampus (campus) {
 
 export function getCampuses (campuses) {
     const action = { type: GET_CAMPUSES, campuses };
+    return action;
+}
+
+export function updateCampus (campus) {
+    const action = { type: UPDATE_CAMPUS, campus }
     return action;
 }
 
@@ -42,10 +48,15 @@ export function postCampus (campus) {
     };
 }
 
+export const renameCampus = (id, campus) => dispatch => {
+    axios.put(`/api/campuses/${id}`, campus)
+        .then(res => dispatch(updateCampus(res.data)))
+        .catch(err => console.error(`Updating user: ${campus} unsuccessful`, err));
+};
+
 export const removeCampus = campus => dispatch => {
     dispatch(deleteCampus(campus));
     axios.delete(`/api/campuses/${campus.id}`)
-        // .then(dispatch(deleteCampus(campus)))
         .catch(err => console.error(`Removing user: ${campus.id} unsuccessful`, err));
 };
 
@@ -58,6 +69,11 @@ export default function campusReducer (state = [], action) {
 
         case GET_CAMPUS:
             return [...state, action.campus];
+
+        case UPDATE_CAMPUS:
+            return state.map(campus => (
+                action.campus.id === campus.id ? action.campus : campus
+            ));
 
         case DELETE_CAMPUS:
             return state.filter(campus => campus.id !== action.campus.id);

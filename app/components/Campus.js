@@ -6,7 +6,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import StudentList from './StudentList';
 import { fetchCampuses } from '../store';
-import { removeCampus } from '../reducers/campuses'
+import { renameCampus } from '../reducers/campuses'
 
 class Campus extends Component {
 
@@ -21,15 +21,28 @@ class Campus extends Component {
         let campus = single_campus_array[0] && single_campus_array[0];
         let name = campus && campus.name;
 
-        // const handleSubmit = this.props.handleSubmit;
+        const handleSubmit = this.props.handleSubmit;
+        let newName = null;
 
         return (
             <div>
                 <h1>{name}</h1>
                 <StudentList />
-                {/*<NavLink to={`/campuses`} activeClassName="active">*/}
-                    {/*<button className="btn btn-default" type="delete" onClick={evt => handleSubmit(campus, evt)}>Delete Campus</button>*/}
-                {/*</NavLink>*/}
+                <div></div>
+                <form id="updateCampus" onSubmit={evt => handleSubmit(campusId, newName ? newName : name, evt)}>
+                    <div className="input-group input-group-lg">
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="content"
+                            onChange={evt => newName = evt.target.value}
+                            placeholder="Update Campus Name"
+                        />
+                        <span className="input-group-btn">
+                        <button className="btn btn-default" type="submit">Update Campus</button>
+                    </span>
+                    </div>
+                </form>
             </div>
         );
     }
@@ -46,9 +59,9 @@ const mapDispatchToProps = function (dispatch) {
         fetchCampusesThunk () {
             dispatch(fetchCampuses());
         },
-        handleSubmit (campus, evt) {
+        handleSubmit (id, campusName, evt) {
             evt.preventDefault();
-            dispatch(removeCampus(campus));
+            dispatch(renameCampus(id, { name: campusName, image: '' }));
         }
     };
 };

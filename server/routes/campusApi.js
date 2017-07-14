@@ -38,20 +38,28 @@ api.post('/campuses', (req, res) => {
         })
 });
 
-api.put('/campuses/:id', (req, res) => {
-    Campus.findById(req.params.id)
-        .then(_campus => {
-            return _campus.update(req.body, { where: { id: req.params.id }, plain: true })
+// api.put('/campuses/:id', (req, res) => {
+//     Campus.findById(req.params.id)
+//         .then(_campus => {
+//             return _campus.update(req.body, { where: { id: req.params.id }, plain: true })
+//         })
+//         .then(_campus => {
+//             res.status(200).json({
+//                 message: "Updated Successfully",
+//                 campus: _campus
+//             });
+//         })
+//         .catch(err => {
+//             res.sendStatus(500, err);
+//         })
+// });
+
+api.put('/campuses/:id', function (req, res, next) {
+    req.requestedCampus.update(req.body)
+        .then(function (user) {
+            res.json(user);
         })
-        .then(_campus => {
-            res.status(200).json({
-                message: "Updated Successfully",
-                campus: _campus
-            });
-        })
-        .catch(err => {
-            res.sendStatus(500, err);
-        })
+        .catch(next);
 });
 
 api.delete('/campuses/:id', function (req, res, next) {
